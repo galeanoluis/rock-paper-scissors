@@ -12,8 +12,8 @@ function getComputerChoice() {
     }
 }
 
-function playRound() {
-    let player = prompt("Rock Paper Scissors!");
+function playRound(e) {
+    let player = e.target.id;
     let computer = getComputerChoice();
     player = player.toLowerCase();
     while(!("rock paper scissors".includes(player))) {
@@ -39,7 +39,11 @@ function playRound() {
     }
 }
 
-function game() {
+const buttons = Array.from(document.querySelectorAll(".button"));
+buttons.forEach(button => button.addEventListener("click", playRound));
+console.log(buttons);
+
+/* function game() {
     let score = 0;
     let i = 0;
     while(i < 5) {
@@ -53,4 +57,4 @@ function game() {
     } else {
         return "IT'S A TIE";
     }
-}
+} */
