@@ -1,5 +1,16 @@
 // let string = prompt("Sexooooo");
 
+const buttons = Array.from(document.querySelectorAll(".button"));
+buttons.forEach(button => button.addEventListener("click", playRound));
+console.log(buttons);
+const display = document.getElementById("display");
+display.textContent = "Let's Play";
+const playerScore = document.getElementById("player");
+const computerScore = document.getElementById("computer");
+const displayScore = document.getElementById("score");
+let score = 0;
+let round = 0;
+
 function getComputerChoice() {
     let choise = Math.floor(Math.random() * 3);
     switch(choise) {
@@ -11,6 +22,7 @@ function getComputerChoice() {
             return "scissors";
     }
 }
+
 
 function playRound(e) {
     let player = e.target.id;
@@ -24,37 +36,48 @@ function playRound(e) {
         case "rockrock":
         case "paperpaper":
         case "scissorsscissors":
-            console.log("Tie round.");
-            return 0;
+            display.textContent = "Tie round.";
+            game(0);
+            return;
         case "rockscissors":
         case "paperrock":
         case "scissorspaper":
-            console.log("You win this round!")
-            return 1;
+            display.textContent = "You win this round!";
+            playerScore.textContent = parseInt(playerScore.textContent) + 1;
+            game(1);
+            return;
         case "scissorsrock":
         case "rockpaper":
         case "paperscissors":
-            console.log("Computer win this round.")
-            return -1;
+            display.textContent = "Computer win this round.";
+            computerScore.textContent = parseInt(computerScore.textContent) + 1;
+            game(-1);
+            return;
     }
 }
 
-const buttons = Array.from(document.querySelectorAll(".button"));
-buttons.forEach(button => button.addEventListener("click", playRound));
-console.log(buttons);
 
-/* function game() {
-    let score = 0;
-    let i = 0;
-    while(i < 5) {
-        score = score + (playRound());
-        i++;
+function game(i) {
+    if (round >= 5) {
+        if(score > 0) {
+            display.textContent = "YOU WIN THE GAME!!!";
+            gameEnd();
+        } else if (score < 0) {
+            display.textContent = "COMPUTER WINS THE GAME, YOU LOST!";
+            gameEnd();
+        } else {
+            display.textContent = "IT'S A TIE";
+            gameEnd();
+        }
     }
-    if(score > 0) {
-        return "YOU WIN THE GAME!!!";
-    } else if (score < 0) {
-        return "COMPUTER WINS THE GAME, YOU LOST!";
-    } else {
-        return "IT'S A TIE";
-    }
-} */
+    score = score + i;
+    round++;
+}
+
+function gameEnd() {
+    round = 0;
+    score = 0;
+    playerScore.textContent = 0;
+    computerScore.textContent = 0;
+}
+
